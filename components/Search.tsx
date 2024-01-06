@@ -42,19 +42,20 @@ export default function Search() {
         }
     }
 
-    return (<>
-        <div className="flex flex-col text-white justify-center z-30 w-[30rem] p-1 mt-12" >
-            <div className='mb-6 text-center'>
-                <div className='text-4xl mb-2'> Movies App </div>
-                <div className='text-sm'> Application to search for movies and add them to a list</div>
+    return (
+        <div className='flex flex-col w-full h-full justify-center items-center'>
+            <div className="flex flex-col text-white justify-center z-30 w-[30rem] p-1 mt-12" >
+                <div className='mb-6 text-center'>
+                    <div className='text-4xl mb-2'> Movies App </div>
+                    <div className='text-sm'> Application to search for movies and add them to a list</div>
+                </div>
+
+                <input className='appearance-none bg-transparent border border-red-700 py-1 px-4 rounded-lg focus:outline-none text-white text-center text-sm placeholder:text-gray-400 w-full' placeholder='Search movie'
+                    onKeyUp={(e) => { onSubmit(e) }} />
             </div>
-
-            <input className='appearance-none bg-transparent border border-red-700 py-1 px-4 rounded-lg focus:outline-none text-white text-center text-sm placeholder:text-gray-400 w-full' placeholder='Search movie'
-                onKeyUp={(e) => { onSubmit(e) }} />
+            {openResults && <ResultsSearch />}
         </div>
-
-        {openResults && <ResultsSearch />}
-    </>
+   
     )
 }
 

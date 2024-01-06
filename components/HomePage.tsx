@@ -5,13 +5,14 @@ export default function HomePage() {
 
     return (
         <>
+
             <Image
                 src={cinema}
-                className='absolute h-screen opacity-20'
+                className='absolute inset-0 w-full h-full object-cover opacity-20'
                 alt="background"
             />
             <div
-                className='absolute top-0 text-white flex flex-col w-full justify-center items-center'
+                className='absolute top-0 w-full h-full flex flex-col justify-center items-center'
                 style={{
                     height: "100%",
                     width: "100vw",
@@ -22,4 +23,6 @@ export default function HomePage() {
         </>
 
     )
+
+
 }

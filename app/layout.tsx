@@ -37,11 +37,12 @@ export default function RootLayout({
       <body className={cn(
         font.className
       )}>
-        <div className="relative bg-black h-screen w-full flex flex-grow flex-col justify-center items-center">
+        <div className="relative bg-black h-screen w-full flex items-center justify-center">
           <HomePage />
           <ReduxProvider>{children}</ReduxProvider>
         </div>
       </body>
     </html>
   )
+  // 
 }
