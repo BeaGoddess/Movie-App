@@ -1,10 +1,10 @@
 import ListMovies from "@/components/ListMovies";
 import Link from 'next/link'
 
-export default function List() {
+export default function () {
 
     return (<>
-        <div className='fixed text-white top-0 w-full bg-black flex justify-between pt-1 text-base left-0 right-0'>
+        <div className='fixed text-white top-0 w-full bg-black flex justify-between pt-1 text-base left-0 right-0 z-50 overflow-hidden'>
             <div className='py-1 ml-4 mr-1 my-1  font-bold text-2xl'>
                 Movie App
             </div>
@@ -20,7 +20,6 @@ export default function List() {
         </div>
 
         <ListMovies />
-
     </>
     )
 }
