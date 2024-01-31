@@ -72,9 +72,6 @@ export default function Pagination() {
                 const res = await axios.get(`http://www.omdbapi.com/?type=movie&s=${search}&apikey=${APIKEY}&page=${currentPage}`);
 
                 if (res.status === 200 && res.data.Response === "True") {
-
-                    console.log(`http://www.omdbapi.com/?type=movie&s=${search}&apikey=${APIKEY}&page=${currentPage}`, res.data.Search);
-
                     dispatch(changeList(res.data.Search));
                     dispatch(changePage(currentPage));
                 }
@@ -95,17 +92,17 @@ export default function Pagination() {
             {array.map((value: any) => {
                 if (value === page) {
                     return (
-                        <li key={value} className="bg-red-600 w-8 h-8 rounded-xl flex justify-center items-center cursor-pointer" onClick={(e) => { handlePageChange(value) }}> <span >{value} </span></li>
+                        <li key={value} className="bg-red-600 w-8 h-8 rounded-xl flex justify-center items-center cursor-pointer" onClick={() => { handlePageChange(value) }}> <span >{value} </span></li>
                     )
                 } else {
                     return (
-                        <li key={value} className="bg-red-900 w-8 h-8 rounded-xl flex justify-center items-center cursor-pointer" onClick={(e) => { handlePageChange(value) }}> <span >{value} </span></li>
+                        <li key={value} className="bg-red-900 w-8 h-8 rounded-xl flex justify-center items-center cursor-pointer" onClick={() => { handlePageChange(value) }}> <span >{value} </span></li>
                     )
                 }
             })}
 
-            <li className="bg-red-900 w-8 h-8 rounded-xl flex justify-center items-center cursor-pointer" onClick={(e) => { handlePageChange("&rsaquo;") }}><span >&rsaquo; </span></li>
-            <li className="bg-red-900 w-8 h-8 rounded-xl flex justify-center items-center cursor-pointer" onClick={(e) => { handlePageChange("&raquo;") }}> <span > &raquo;</span></li>
+            <li className="bg-red-900 w-8 h-8 rounded-xl flex justify-center items-center cursor-pointer" onClick={() => { handlePageChange("&rsaquo;") }}><span >&rsaquo; </span></li>
+            <li className="bg-red-900 w-8 h-8 rounded-xl flex justify-center items-center cursor-pointer" onClick={() => { handlePageChange("&raquo;") }}> <span > &raquo;</span></li>
         </ul>
     )
 }

@@ -11,7 +11,8 @@ type Movie = {
     Genre: string;
     Poster: string,
     favorite: boolean,
-    state: string,
+    state: string | null,
+    rate: number | null
 }
 
 export interface MoviesList {
@@ -31,9 +32,15 @@ export const listMoviesSlice = createSlice({
             localStorage.setItem("list", JSON.stringify(state.list));
         },
         getList: (state) => {
-            state.list = JSON.parse(localStorage.getItem('list') || "")
+            if(localStorage.getItem('list')){
+                state.list = JSON.parse(localStorage.getItem('list') || "")
+            } else {
+                state.list = []
+            }
         },
-        removeMovie: (state, action: PayloadAction<number>) => {
+        removeMovie: (state, action: PayloadAction<string>) => {
+            state.list = state.list.filter((item) => item.imdbID !== action.payload)
+            localStorage.setItem("list", JSON.stringify(state.list));
         },
         setFavorite: (state, action: PayloadAction<number>) => {
         },

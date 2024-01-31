@@ -5,13 +5,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { AppDispatch, useAppSelector } from '@/store/store';
 import { useDispatch } from 'react-redux';
-import { addMovie } from '@/store/listMovies';
+import { addMovie, removeMovie, getList } from '@/store/listMovies';
 
 export default function MovieDetails({ id }: { id: string }) {
 
     const APIKEY = "3e597291";
     const [movie, setMovie] = useState<any>();
     const [loader, setLoader] = useState<boolean>(true);
+
     const dispatch = useDispatch<AppDispatch>();
     const list = useAppSelector((state) => state.listMovies.list)
 
@@ -19,6 +20,7 @@ export default function MovieDetails({ id }: { id: string }) {
         const res = await axios.get(`http://www.omdbapi.com/?type=movie&i=${id}&apikey=${APIKEY}`);
 
         if (res.status === 200 && res.data.Response === "True") {
+            dispatch(getList());
             setMovie(res.data)
             setLoader(false)
 
@@ -31,21 +33,33 @@ export default function MovieDetails({ id }: { id: string }) {
         fetchData();
     }, []);
 
-    const handleClick = () => {
-        let movieJSON = {
-            Title: movie?.Title,
-            Year: movie?.Year,
-            imdbID: movie?.imdbID,
-            Type: movie?.Type,
-            Poster: movie?.Poster,
-            Genre: movie?.Genre,
-            favorite: false,
-            state: ""
+    const handleClick = (action: string) => {
+        if (action === "add") {
+            let movieJSON = {
+                Title: movie?.Title,
+                Year: movie?.Year,
+                imdbID: movie?.imdbID,
+                Type: movie?.Type,
+                Poster: movie?.Poster,
+                Genre: movie?.Genre,
+                favorite: false,
+                state: null,
+                rate: null
+            }
+
+            dispatch(addMovie(movieJSON));
+        } else if (action === "delete") {
+            dispatch(removeMovie(movie?.imdbID));
+        }
+    };
+
+    const checkMovieOnList = () => {
+        for (let element of list) {
+            if (element.imdbID === movie.imdbID) return true;
         }
 
-        dispatch(addMovie(movieJSON));
-        console.log(localStorage.getItem("list"));
-    };
+        return false
+    }
 
     return (<>
         {loader ? <Spinner /> : <div className="z-50 bg-black/50 flex h-auto m-2 min-[600px]:flex-row flex-col  items-center relative">
@@ -59,9 +73,16 @@ export default function MovieDetails({ id }: { id: string }) {
                 <div className="font-thin "> <b className="font-bold">Director:</b> {movie?.Director} </div>
                 <div className="font-thin "> <b className="font-bold">Sinopse:</b> {movie?.Plot} </div>
 
-                <div className="bg-red-600 rounded flex mt-4 m-auto ml-0 px-2 font-normal text-base cursor-pointer hover:bg-[#410303] transition-all duration-300" onClick={handleClick}>
-                    + Add to List
-                </div>
+                {!checkMovieOnList() ?
+                    <div className="bg-red-600 rounded flex mt-4 m-auto ml-0 px-2 font-normal text-base cursor-pointer hover:bg-[#410303] transition-all duration-300"
+                        onClick={() => handleClick("add")}>
+                        + Add to list
+                    </div>
+                    :
+                    <div className="bg-red-600 rounded flex mt-4 m-auto ml-0 px-2 font-normal text-base cursor-pointer hover:bg-[#410303] transition-all duration-300"
+                        onClick={() => handleClick("delete")}>
+                        - Delete from list
+                    </div>}
             </div>
 
         </div>
