@@ -9,7 +9,7 @@ type Movie = {
     imdbID: string;
     Type: string;
     Genre: string;
-    Poster: string,
+    Poster: string | undefined;
     favorite: boolean,
     state: string | null,
     rate: number | null
@@ -33,7 +33,7 @@ export const listMoviesSlice = createSlice({
         },
         getList: (state) => {
             if(localStorage.getItem('list')){
-                state.list = JSON.parse(localStorage.getItem('list') || "")
+                state.list = JSON.parse(localStorage.getItem('list') ?? "")
             } else {
                 state.list = []
             }

@@ -5,19 +5,26 @@ import { AppDispatch } from '@/store/store';
 import { useDispatch } from 'react-redux';
 import { removeMovie } from '@/store/listMovies';
 
+interface Movie {
+    Title: string;
+    Year: string;
+    imdbID: string;
+    Type: string;
+    Poster: string | undefined;
+};
 
 interface ModalDetailsProps {
-    movie: any;
+    movie: Movie;
     visible: boolean;
     setVisible: () => void;
 }
 
 export default function ModalDetails({ movie, visible, setVisible }: ModalDetailsProps) {
 
-    const [movieModal, setMovieModal] = useState<any>(movie);
+    const [movieModal, setMovieModal] = useState<Movie>(movie);
 
     const dispatch = useDispatch<AppDispatch>();
-
+      
     useEffect(() => {
         setMovieModal(movie)
     }, [movie]);
@@ -49,7 +56,7 @@ export default function ModalDetails({ movie, visible, setVisible }: ModalDetail
                     </div>
 
                     <div className="flex text-white">
-                        <img src={movieModal?.Poster} alt={movieModal?.Title} className="rounded min-[600px]:w-[160px] min-[600px]:h-auto object-cover w-full h-[200px] "></img>
+                        <img src={movieModal?.Poster !== "N/A" ? movieModal?.Poster: ""} alt={movieModal?.Title} className="rounded min-[600px]:w-[160px] min-[600px]:h-auto object-cover w-full h-[200px] "></img>
 
                         <div className="flex flex-col m-2 flex-grow text-sm">
                             <div className="my-2 flex w-full items-center">

@@ -7,10 +7,39 @@ import { AppDispatch, useAppSelector } from '@/store/store';
 import { useDispatch } from 'react-redux';
 import { addMovie, removeMovie, getList } from '@/store/listMovies';
 
+interface Movie {
+    Title: string;
+    Year: string;
+    imdbID: string;
+    Type: string;
+    Poster: string | undefined;
+    Genre: string;
+    Runtime: string;
+    Actors: string;
+    Plot: string;
+    Director: string;
+    Released: string;
+};
+
+
+const initialState: Movie = {
+    Title: "",
+    Year: "",
+    imdbID: "",
+    Type: "",
+    Poster: "",
+    Genre: "",
+    Runtime: "",
+    Actors: "",
+    Plot: "",
+    Director: "",
+    Released: ""
+}
+
 export default function MovieDetails({ id }: { id: string }) {
 
     const APIKEY = "3e597291";
-    const [movie, setMovie] = useState<any>();
+    const [movie, setMovie] = useState<Movie>(initialState);
     const [loader, setLoader] = useState<boolean>(true);
 
     const dispatch = useDispatch<AppDispatch>();
@@ -63,7 +92,7 @@ export default function MovieDetails({ id }: { id: string }) {
 
     return (<>
         {loader ? <Spinner /> : <div className="z-50 bg-black/50 flex h-auto m-2 min-[600px]:flex-row flex-col  items-center relative">
-            <img src={movie?.Poster} alt={movie?.Title} className=" rounded min-[600px]:w-[300px] min-[600px]:h-auto min-[600px]:ml-2  min-[600px]:my-2 max-[600px]:p-2 object-cover w-full h-[200px] "></img>
+            <img src={movie?.Poster !== "N/A" ? movie?.Poster : ""} alt={movie?.Title} className=" rounded min-[600px]:w-[300px] min-[600px]:h-auto min-[600px]:ml-2  min-[600px]:my-2 max-[600px]:p-2 object-cover w-full h-[200px] "></img>
 
             <div className="p-4 max-w-[550px] text-white text-justify flex flex-col">
                 <div className=" font-bold text-2xl">  {movie?.Title} </div>

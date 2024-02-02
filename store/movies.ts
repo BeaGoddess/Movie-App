@@ -7,7 +7,7 @@ type Movie = {
     Year: string;
     imdbID: string;
     Type: string;
-    Poster: string;
+    Poster: string | undefined;
 };
 
 export interface MoviesList {
@@ -29,7 +29,7 @@ export const moviesSlice = createSlice({
     initialState,
     reducers: {
         changeList: (state, action: PayloadAction<Movie[]>) => {
-            state.list = action.payload
+            state.list = action.payload;
         },
         changeResults: (state, action: PayloadAction<number>) => {
             state.results = action.payload

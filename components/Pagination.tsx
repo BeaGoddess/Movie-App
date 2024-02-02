@@ -1,11 +1,10 @@
 "use client";
 
-import { useAppSelector, AppDispatch } from "@/store/store";
-import { useDispatch } from 'react-redux';
-import { changeList, changePage } from '@/store/movies';
-import axios from 'axios';
+import { useAppSelector } from "@/store/store";
+import { useRouter } from 'next/navigation';
 
 export default function Pagination() {
+    const router = useRouter()
 
     const _ = require('lodash');
     const results = useAppSelector((state) => state.movies.results)
@@ -13,9 +12,6 @@ export default function Pagination() {
 
     let page = useAppSelector((state) => state.movies.page)
     let search = useAppSelector((state) => state.movies.search)
-
-    const dispatch = useDispatch<AppDispatch>();
-    const APIKEY = "3e597291";
 
     const returnPaginationRange = (totalPage: number, page: number, limit: number, siblings: number) => {
 
@@ -51,7 +47,7 @@ export default function Pagination() {
         let currentPage = 0;
 
         if (value === "&laquo;" || value === "... ") {
-            currentPage = 1
+            currentPage = 1;
         } else if (value === "&lsaquo;") {
             if (page !== 1) {
                 currentPage = page - 1
@@ -67,15 +63,11 @@ export default function Pagination() {
             currentPage = parseInt(value)
         }
 
+        if(currentPage === 0) currentPage = 1;
+
         if (currentPage !== page) {
             try {
-                const res = await axios.get(`http://www.omdbapi.com/?type=movie&s=${search}&apikey=${APIKEY}&page=${currentPage}`);
-
-                if (res.status === 200 && res.data.Response === "True") {
-                    dispatch(changeList(res.data.Search));
-                    dispatch(changePage(currentPage));
-                }
-
+                router.push(`/search/${search}/page/${currentPage}`);
             } catch (error) {
                 return { error };
             }
